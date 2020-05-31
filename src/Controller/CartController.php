@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CartController extends AbstractController
@@ -24,8 +25,11 @@ class CartController extends AbstractController
 
 
      // on peut pour accéder à la session passer par $request
-    public function add($id, Request $request){
-        $session = $request->getSession();
+    /*public function add($id, Request $request){
+        $session = $request->getSession();*/
+
+    // ou par un objet qui représente la SessionInterface  
+    public function add($id, SessionInterface $session){  
         $panier = $session->get('panier', []);
         
         if(!empty($panier[$id])){
