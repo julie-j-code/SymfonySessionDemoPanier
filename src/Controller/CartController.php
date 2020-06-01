@@ -24,7 +24,6 @@ class CartController extends AbstractController
                 'quantity' => $quantity
             ];
 }
-
         //dd($panierWithData);
 
         $total = 0;
@@ -41,9 +40,25 @@ class CartController extends AbstractController
     }
 
     /**
-     * @Route("/panier/add/{id}", name="cart_add")
+     * @Route("/panier/remove/{id}", name="cart_remove")
      */
 
+     public function remove($id, SessionInterface $session){
+        $panier = $session->get('panier', []);
+
+        if(!empty($panier[$id])){
+           unset($panier[$id]);
+        }
+
+        $session->set('panier', $panier);
+        return $this->redirectToRoute("cart_index");
+     }
+
+
+
+    /**
+     * @Route("/panier/add/{id}", name="cart_add")
+     */
 
      // on pouvait initialement pour accéder à la session passer par $request
     /*public function add($id, Request $request){
@@ -63,6 +78,6 @@ class CartController extends AbstractController
 
         // dd($session->get('panier'));
 
-
+        return $this->redirectToRoute("cart_index");
     }
 }
